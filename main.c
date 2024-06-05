@@ -13,10 +13,12 @@ typedef struct Player {
 int input_num();
 void Player_setting(Player *P, int n);
 void print_option(Player *P);
+int isplay(Player *P);
 
 void main(void){
 	//variable
 	Player P[6]; //player arr 1/2/3/4/5
+	int turn = 0;
 
 	//input num
 	int player_num = input_num();
@@ -27,6 +29,16 @@ void main(void){
 	//print
 	print_option(P);
 
+	//roof
+	while(isplay(P) != 0)
+	{	
+		turn++;
+		if(turn > 5){
+			print_option(P);
+			break;
+		}
+		
+	}
 
 	printf("test\n");
 }
@@ -70,5 +82,17 @@ void print_option(Player *P){
 		else if(P[i].isPlayer == -1){printf(" died\n");}
 	}
 	printf("---------------------------------\n\n");
+
+}
+
+int isplay(Player *P){
+	int count = 5;
+	for(int i = 1; i < 6; i++){
+		if(P[i].isPlayer == -1){
+			count--;
+		}
+	}
+	if(count > 1){ return 1;}
+	else return 0;
 
 }
