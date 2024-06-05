@@ -1,0 +1,44 @@
+How to play
+Dilemma:GUN
+
+딜레마 게임:총의 딜레마
+플레이어의 수를 입력하면 게임이 시작합니다. (총 다섯 플레이어 중 사람 플레이어 수 입력)
+발사 확률이 높으면 대상이 될 가능성도 높아집니다.
+
+------------------------------------------------------------------------------------------------
+Your turn, your choice 1 [Shoot or Pass]
+
+Pass. If you chosen [Pass {up} or {down}] (up or down is your option)
+	1. Just pass your chance.
+	2. If your option is up, increase your trigger probability. (+30%)
+	3. If your option is down, decrease your trigger probability. (-30%)
+
+Shoot. If you chosen [Shoot {n}] (n is target num)
+	1. Shooting the target player_n.
+	2. If your shot is succssful (BANG!!!) the target dies.
+	3. If your shot is failed (Tic...) nothing.
+	4. (Careful!) After, your trigger probablity changes random.
+
+Be the last one and survive the game.
+Good luck.
+
+Tip. Computer players are more likely to shot the target that highest trigger probability.
+
+------------------------------------------------------------------------------------------------
+당신의 차례, 당신의 선택은 하나[발사 또는 패스]
+
+Pass. [Pass {up} 또는 {down}]을 선택한 경우 (up 또는 down은 선택 사항)
+ 1. 기회를 넘김니다.
+ 2. 증가 옵션. 발사 확률이 증가합니다. (+30%)
+ 3. 감소 옵션. 발사 확률이 감소합니다. (-30%)
+
+Shoot. [Shoot {n}] 선택한 경우 (n은 대상 번호)
+ 1. 대상 player_n을 쏜다.
+ 2. 사격이 성공하면(BANG!!!) 대상은 사망합니다.
+ 3. 사격이 빗나가면(Tic...) 아무것도 없습니다.
+ 4. (주의!) 이후 발사 확률은 무작위로 변경됩니다.
+
+게임에서 살아남을 수 있는 마지막 사람이 되어보세요.
+행운을 빌어요.
+
+팁. 컴퓨터 플레이어는 발동 확률이 가장 높은 대상을 쏠 가능성이 더 높습니다.
