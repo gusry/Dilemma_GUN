@@ -11,12 +11,19 @@ typedef struct Player {
 }Player;
 
 int input_num();
+void Player_setting(Player *P, int n);
+
 
 void main(void){
 	//variable
 	Player P[6]; //player arr 1/2/3/4/5
 
+	//input num
 	int player_num = input_num();
+
+	//setting
+	Player_setting(P, player_num);
+
 
 	printf("test\n");
 }
@@ -34,4 +41,18 @@ int input_num(){
 		return input_num();
 	}	
 	return n;
+}
+
+void Player_setting(Player *P, int n){
+	for(int i = 1; i < 6; i++){
+		if(n > 0){
+			P[i].isPlayer = 1;
+			n--;
+		}
+		else{
+			P[i].isPlayer = 0;
+		}
+		P[i].SPRB = 0.1 * i;
+	}
+
 }
