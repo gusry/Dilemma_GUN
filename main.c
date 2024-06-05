@@ -19,10 +19,14 @@ bool coin_check(double PRB); //coin probablity : PRB
 
 void printLoadingAnimation(int iterations, int delay);
 
+bool getInput(char *str1, char *str2, Player *P, int turn);
+
 void main(void){
 	//variable
 	Player P[6]; //player arr 1/2/3/4/5
 	int turn = 0;
+	char input_1[6];
+	char input_2[6];
 
 	//input num
 	int player_num = input_num();
@@ -49,6 +53,11 @@ void main(void){
 
 			if(P[turn].isPlayer == 1){
 				printf(" You choose Shoot or Pass\nView current infomation intput [status all]\nPlayer %d, choose [shoot {n} or pass {up/down}] : ", turn);
+				
+				while (!getInput(input_1, input_2, P, turn)){
+					printf("Now it's Player %d's turn\nYou choose shoot or pass\n",turn);
+				}
+				printf("\n\n");
 
 			}
 
@@ -148,8 +157,21 @@ void printLoadingAnimation(int iterations, int delay){
     printf("\n");
 }
 
-
-
+bool getInput(char *str1, char *str2, Player *P, int turn){
+    char inputBuffer[16];
+    if(fgets(inputBuffer, sizeof(inputBuffer), stdin) != NULL){
+        inputBuffer[strcspn(inputBuffer, "\n")] = '\0';
+        if(sscanf(inputBuffer, "%s %s", str1, str2) == 2){
+			printf("%s, %s\n",str1, str2);
+			return true;
+		}
+	else{
+        printf("Error: Input reading failed.\n");
+		printf("Please try again.\n");
+        return false;
+    }
+	}
+}
 
 
 
