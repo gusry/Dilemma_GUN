@@ -73,7 +73,7 @@ void main(void){
 			}
 
 			else if(P[turn].isPlayer == 0){
-				printf(" computer player auto chice\n");
+				printf(" computer player auto choice\n");
 				auto_choice(P, turn);
 			}
 			
@@ -87,7 +87,8 @@ void main(void){
 			turn = i;
 		}
 	}
-	printf("\nPlayer_%d winner!!!\nGood Game.\n\n",turn);
+	printf("\nPlayer_%d winner!!!\nGood Game.\n\nEnd, 10 second\n",turn);
+	sleep(10);
 
 	return;
 }
