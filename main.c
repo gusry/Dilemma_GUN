@@ -21,6 +21,9 @@ void printLoadingAnimation(int iterations, int delay);
 
 bool getInput(char *str1, char *str2, Player *P, int turn);
 
+void PRB_down(Player *P, int turn);
+void PRB_up(Player *P, int turn);
+
 void main(void){
 	//variable
 	Player P[6]; //player arr 1/2/3/4/5
@@ -178,9 +181,11 @@ bool getInput(char *str1, char *str2, Player *P, int turn){
 			}
 			else if(strcmp(str1, "pass") == 0){
 				if(strcmp(str2, "up") == 0){
+					PRB_up(P, turn);
 					return true;
 				}
 				else if(strcmp(str2, "down") == 0){
+					PRB_down(P, turn);
 					return true;
 				}
 				else{
@@ -207,7 +212,21 @@ bool getInput(char *str1, char *str2, Player *P, int turn){
 	}
 }
 
+void PRB_down(Player *P, int turn){
+	P[turn].SPRB -= 0.3;
+	if(P[turn].SPRB < 0){
+		P[turn].SPRB = 0;
+	}
+	printf("Player_%d's shooting probablity set %.2f\n\n",turn, P[turn].SPRB);
+}
 
+void PRB_up(Player *P, int turn){
+	P[turn].SPRB += 0.3;
+	if(P[turn].SPRB > 1){
+		P[turn].SPRB = 1;
+	}
+	printf("Player_%d's shooting probablity set %.2f\n\n",turn, P[turn].SPRB);
+}
 
 
 
