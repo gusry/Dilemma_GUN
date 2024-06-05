@@ -24,6 +24,9 @@ bool getInput(char *str1, char *str2, Player *P, int turn);
 void PRB_down(Player *P, int turn);
 void PRB_up(Player *P, int turn);
 
+int Bang(Player *P, int target, int turn);
+int Tic(Player *P, int turn);
+
 void main(void){
 	//variable
 	Player P[6]; //player arr 1/2/3/4/5
@@ -47,7 +50,8 @@ void main(void){
 		if(turn > 5){
 			printLoadingAnimation(12, 500);
 			print_option(P);
-			break;
+			turn = 1;
+			//break;
 		}
 
 		if(P[turn].isPlayer != -1){
@@ -130,6 +134,7 @@ int isplay(Player *P){
 }
 
 
+
 bool coin_check(double PRB){
 	srand(time(NULL));
 
@@ -175,6 +180,17 @@ bool getInput(char *str1, char *str2, Player *P, int turn){
 				if(P[target].isPlayer == -1){
 					printf("Please try again. Target already dead. \n");
 					return false;
+				}
+
+				else{
+					if(coin_check(P[turn].SPRB)){
+						Bang(P, target, turn);
+						return true;
+					}
+					else{
+						Tic(P, turn);
+						return true;
+					}
 				}
 
 				return true;
@@ -228,7 +244,15 @@ void PRB_up(Player *P, int turn){
 	printf("Player_%d's shooting probablity set %.2f\n\n",turn, P[turn].SPRB);
 }
 
+int Bang(Player *P, int target, int turn){
+	printLoadingAnimation(12, 500);
+	printf("!!!BANG!!!\n!!!BANG!!!\n!!!BANG!!!\n");
+	printf("Player_%d is dead. \n",target);
+	P[target].isPlayer = -1;
+}
 
-
-
+int Tic(Player *P, int turn){
+	printLoadingAnimation(12, 500);
+	printf("...Tic...\n");
+}
 
