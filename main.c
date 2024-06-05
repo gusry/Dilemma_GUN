@@ -16,6 +16,7 @@ void print_option(Player *P);
 int isplay(Player *P);
 
 bool coin_check(double PRB); //coin probablity : PRB
+double generate_random(Player x, int turn);
 
 void printLoadingAnimation(int iterations, int delay);
 
@@ -23,9 +24,10 @@ bool getInput(char *str1, char *str2, Player *P, int turn);
 
 void PRB_down(Player *P, int turn);
 void PRB_up(Player *P, int turn);
+void Bang(Player *P, int target, int turn);
+void Tic(Player *P, int turn);
 
-int Bang(Player *P, int target, int turn);
-int Tic(Player *P, int turn);
+
 
 void main(void){
 	//variable
@@ -234,6 +236,7 @@ void PRB_down(Player *P, int turn){
 		P[turn].SPRB = 0;
 	}
 	printf("Player_%d's shooting probablity set %.2f\n\n",turn, P[turn].SPRB);
+	return;
 }
 
 void PRB_up(Player *P, int turn){
@@ -242,17 +245,28 @@ void PRB_up(Player *P, int turn){
 		P[turn].SPRB = 1;
 	}
 	printf("Player_%d's shooting probablity set %.2f\n\n",turn, P[turn].SPRB);
+	return;
 }
 
-int Bang(Player *P, int target, int turn){
+void Bang(Player *P, int target, int turn){
 	printLoadingAnimation(12, 500);
 	printf("!!!BANG!!!\n!!!BANG!!!\n!!!BANG!!!\n");
 	printf("Player_%d is dead. \n",target);
 	P[target].isPlayer = -1;
+	P[turn].SPRB = generate_random(P[turn], turn);
+	return;
 }
 
-int Tic(Player *P, int turn){
+void Tic(Player *P, int turn){
 	printLoadingAnimation(12, 500);
 	printf("...Tic...\n");
+	P[turn].SPRB = generate_random(P[turn], turn);
+	return;
 }
 
+double generate_random(Player x, int turn){
+
+    double dorand = ((double) rand() / RAND_MAX) * 0.99 + 0.01;
+	printf("Player_%d's shooting probablity set %.2f.\n\n",turn ,dorand);
+	return dorand;
+}
