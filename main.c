@@ -188,6 +188,15 @@ bool getInput(char *str1, char *str2, Player *P, int turn){
 					return false;
 				} 
 			}
+			else if(strcmp(str1, "status") == 0){
+				print_option(P);
+				return false;
+			}
+			else{
+				printf("Please try again.\n");
+				return false;
+			}
+
 			return true;
 		}
 	else{
