@@ -50,13 +50,14 @@ void main(void){
 	{	
 		turn++;
 		if(turn > 5){
-			printLoadingAnimation(12, 500);
+			sleep(4);
+			printf("\nNext turn\n");
 			print_option(P);
 			turn = 1;
 		}
 
 		if(P[turn].isPlayer != -1){
-
+			sleep(4);
 			printf("Now it's Player %d's turn,", turn);
 
 			if(P[turn].isPlayer == 1){
@@ -76,7 +77,7 @@ void main(void){
 		}
 		
 	}
-	
+
 	//winner
 	for(int i = 1; i < 6; i++){
 		if(P[i].isPlayer != -1){
