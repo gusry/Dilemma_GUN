@@ -15,6 +15,8 @@ void Player_setting(Player *P, int n);
 void print_option(Player *P);
 int isplay(Player *P);
 
+bool coin_check(double PRB); //coin probablity : PRB
+
 void main(void){
 	//variable
 	Player P[6]; //player arr 1/2/3/4/5
@@ -96,3 +98,25 @@ int isplay(Player *P){
 	else return 0;
 
 }
+
+
+bool coin_check(double PRB){
+	srand(time(NULL));
+
+	int randnum = rand() % 100;
+
+	if(randnum < PRB * 100){
+		return true;
+	}
+	else return false;
+}
+
+
+
+
+
+
+
+
+
+
