@@ -162,7 +162,32 @@ bool getInput(char *str1, char *str2, Player *P, int turn){
     if(fgets(inputBuffer, sizeof(inputBuffer), stdin) != NULL){
         inputBuffer[strcspn(inputBuffer, "\n")] = '\0';
         if(sscanf(inputBuffer, "%s %s", str1, str2) == 2){
-			printf("%s, %s\n",str1, str2);
+			if(strcmp(str1, "shoot") == 0){
+				int target = atoi(str2);
+
+				if(target == turn || target <= 0 || target > 5){
+					printf("Please try again. Target num {1 ~ 5}\n");
+					return false;
+				}
+				if(P[target].isPlayer == -1){
+					printf("Please try again. Target already dead. \n");
+					return false;
+				}
+
+				return true;
+			}
+			else if(strcmp(str1, "pass") == 0){
+				if(strcmp(str2, "up") == 0){
+					return true;
+				}
+				else if(strcmp(str2, "down") == 0){
+					return true;
+				}
+				else{
+					printf("Please try again. {up} or {down}\n");
+					return false;
+				} 
+			}
 			return true;
 		}
 	else{
