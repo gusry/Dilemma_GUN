@@ -17,6 +17,8 @@ int isplay(Player *P);
 
 bool coin_check(double PRB); //coin probablity : PRB
 
+void printLoadingAnimation(int iterations, int delay);
+
 void main(void){
 	//variable
 	Player P[6]; //player arr 1/2/3/4/5
@@ -36,6 +38,7 @@ void main(void){
 	{	
 		turn++;
 		if(turn > 5){
+			printLoadingAnimation(12, 500);
 			print_option(P);
 			break;
 		}
@@ -109,6 +112,25 @@ bool coin_check(double PRB){
 		return true;
 	}
 	else return false;
+}
+
+void printLoadingAnimation(int iterations, int delay){
+    const char *loadingMessage = "Wait";
+    int messageLength = 7;
+    int i, j;
+
+    for (i = 0; i < iterations; i++) {
+        printf("\r");
+        printf("%s", loadingMessage);
+        for (j = 0; j <= i % 4; j++) {
+            printf(".");
+        }
+        fflush(stdout);
+
+        usleep(delay * 1000);
+    }
+
+    printf("\n");
 }
 
 
