@@ -53,7 +53,6 @@ void main(void){
 			printLoadingAnimation(12, 500);
 			print_option(P);
 			turn = 1;
-			//break;
 		}
 
 		if(P[turn].isPlayer != -1){
@@ -77,8 +76,16 @@ void main(void){
 		}
 		
 	}
+	
+	//winner
+	for(int i = 1; i < 6; i++){
+		if(P[i].isPlayer != -1){
+			turn = i;
+		}
+	}
+	printf("\nPlayer_%d winner!!!\nGood Game.\n\n",turn);
 
-	printf("test\n");
+	return;
 }
 
 int input_num(){
