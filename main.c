@@ -17,9 +17,9 @@ int isplay(Player *P);
 
 bool coin_check(double PRB); //coin probablity : PRB
 double generate_random(Player x, int turn);
-
 void printLoadingAnimation(int iterations, int delay);
 
+//player
 bool getInput(char *str1, char *str2, Player *P, int turn);
 
 void PRB_down(Player *P, int turn);
@@ -66,7 +66,7 @@ void main(void){
 				printf(" You choose Shoot or Pass\nView current infomation intput [status all]\nPlayer %d, choose [shoot {n} or pass {up/down}] : ", turn);
 				
 				while (!getInput(input_1, input_2, P, turn)){
-					printf("Now it's Player %d's turn\nYou choose shoot or pass\n",turn);
+					printf("Player %d's turn\nYou choose shoot or pass\n",turn);
 				}
 				printf("\n\n");
 
@@ -146,7 +146,6 @@ int isplay(Player *P){
 	else return 0;
 
 }
-
 
 
 bool coin_check(double PRB){
