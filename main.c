@@ -12,7 +12,7 @@ typedef struct Player {
 
 int input_num();
 void Player_setting(Player *P, int n);
-
+void print_option(Player *P);
 
 void main(void){
 	//variable
@@ -23,6 +23,9 @@ void main(void){
 
 	//setting
 	Player_setting(P, player_num);
+
+	//print
+	print_option(P);
 
 
 	printf("test\n");
@@ -54,5 +57,18 @@ void Player_setting(Player *P, int n){
 		}
 		P[i].SPRB = 0.1 * i;
 	}
+
+}
+
+void print_option(Player *P){
+	printf("\nCurrent game status--------------\n");
+	
+	for(int i = 1; i < 6; i++){
+		printf("Player_%d", i);
+		if(P[i].isPlayer == 0){printf(" is computer, SPRB : %.2f\n", P[i].SPRB);}
+		else if(P[i].isPlayer == 1){printf(" is human, SPRB : %.2f\n", P[i].SPRB);}
+		else if(P[i].isPlayer == -1){printf(" died\n");}
+	}
+	printf("---------------------------------\n\n");
 
 }
