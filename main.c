@@ -27,7 +27,9 @@ void PRB_up(Player *P, int turn);
 void Bang(Player *P, int target, int turn);
 void Tic(Player *P, int turn);
 
-
+//computer
+void auto_choice(Player *P, int turn);
+int auto_targeting(Player *P, int turn);
 
 void main(void){
 	//variable
@@ -72,6 +74,7 @@ void main(void){
 
 			else if(P[turn].isPlayer == 0){
 				printf(" computer player auto chice\n");
+				auto_choice(P, turn);
 			}
 			
 		}
@@ -278,3 +281,67 @@ double generate_random(Player x, int turn){
 	printf("Player_%d's shooting probablity set %.2f.\n\n",turn ,dorand);
 	return dorand;
 }
+
+void auto_choice(Player *P, int turn){
+	printf("Player_%d's SPRB is %.2f.....\n",turn, P[turn].SPRB);
+	printLoadingAnimation(12, 500);
+	if(coin_check(P[turn].SPRB)){
+		int target = auto_targeting(P, turn);
+		printf("\nThe Target is Player_%d\n",target);
+		if(coin_check(P[turn].SPRB)){
+			Bang(P, target, turn);
+		}
+		else{
+			Tic(P, turn);
+		}
+	}
+	else{
+		if(P[turn].SPRB >= 0.5){
+			printf("Pass down.\n");
+			PRB_down(P, turn);
+		}
+		else{
+			printf("Pass up.\n");
+			PRB_up(P, turn);
+		}
+		
+	}
+}
+
+int auto_targeting(Player *P, int turn){
+	double max = 0;
+	int target = 0;
+	if(coin_check(0.75)){
+		for(int i = 1; i < 6; i++)
+		{
+			if(i != turn && P[i].isPlayer != -1)
+			{
+				if(max < P[i].SPRB)
+				{
+					max = P[i].SPRB;
+					target = i;
+				}
+			}
+		}
+		return target;
+	}
+	else{
+		while(!coin_check(0.1)){
+			if(target == turn){
+				target++;
+			}
+			if(target > 5){
+				target = 1;
+			}
+			target++;
+		}
+		return target;
+	}
+}
+
+
+
+
+
+
+
