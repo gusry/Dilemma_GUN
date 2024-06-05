@@ -42,6 +42,21 @@ void main(void){
 			print_option(P);
 			break;
 		}
+
+		if(P[turn].isPlayer != -1){
+
+			printf("Now it's Player %d's turn,", turn);
+
+			if(P[turn].isPlayer == 1){
+				printf(" You choose Shoot or Pass\nView current infomation intput [status all]\nPlayer %d, choose [shoot {n} or pass {up/down}] : ", turn);
+
+			}
+
+			else if(P[turn].isPlayer == 0){
+				printf(" computer player auto chice\n");
+			}
+			
+		}
 		
 	}
 
