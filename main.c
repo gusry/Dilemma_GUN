@@ -279,14 +279,14 @@ void Bang(Player *P, int target, int turn){
 	printf("!!!BANG!!!\n!!!BANG!!!\n!!!BANG!!!\n");
 	printf("Player_%d is dead. \n",target);
 	P[target].isPlayer = -1;
-	P[turn].SPRB = generate_random(P[turn], turn);
+	// 확률이 바뀌는 부분 삭제
 	return;
 }
 
 void Tic(Player *P, int turn){
 	printLoadingAnimation(12, 500);
 	printf("...Tic...\n");
-	P[turn].SPRB = generate_random(P[turn], turn);
+	// 확률이 바뀌는 부분 삭제
 	return;
 }
 
