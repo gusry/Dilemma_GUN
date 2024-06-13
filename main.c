@@ -107,21 +107,21 @@ int input_num(){ // 5명 미만의 player가 가능하도록 수정
 	fflush(stdin);
 	printf("Input human Player numbers (human+computer Max:5) : ");
 	scanf(" %d", &n);
-	fflush(stdin);
-	printf("Input total Player numbers (human+computer Max:5) : ");
-	scanf(" %d", &m);
-	fflush(stdin);
-	printf("Human Player numbers is : %d\n Computer Player numbers is : %d\nGame start.\n\n",n,m);
 	if(n > 5 || n <= 0){
 		printf("Invalid input human player (1 ~ 5)\n");
 		printf("\n\n");
 		return input_num();
 	}
+	fflush(stdin);
+	printf("Input total Player numbers (human+computer Max:5) : ");
+	scanf(" %d", &m);
 	if(n+m > 5 || m < 0){
 		printf("Invalid input total player (1 ~ 5)\n");
 		printf("\n\n");
 		return input_num();
 	}		
+	fflush(stdin);
+	printf("Human Player numbers is : %d\n Computer Player numbers is : %d\nGame start.\n\n",n,m);
 	return 10*n+m;
 }
 
