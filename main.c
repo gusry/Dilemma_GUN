@@ -89,9 +89,16 @@ void main(void){
 			turn = i;
 		}
 	}
-	printf("\nPlayer_%d winner!!!\nGood Game.\n\nEnd, 10 second\n",turn);
-	sleep(10);
 
+	//human이 살아남았을 때와 아닐 때로 분류
+	if(P[turn].isPlayer){
+		printf("\nPlayer_%d winner!!!\nGood Game.\n\nEnd, 10 second\n",turn);
+		sleep(10);
+	}
+	else{
+		printf("\nThere is no human left.\nGood Game.\n\nEnd, 10 second\n");
+		sleep(10);
+	}
 	return;
 }
 
@@ -152,12 +159,16 @@ void print_option(Player *P){
 
 int isplay(Player *P){
 	int count = 5;
+	int survive_human=0;
 	for(int i = 1; i < 6; i++){
+		if(P[i].isPlayer == 1){
+			survive_human++;
+		}
 		if(P[i].isPlayer == -1){
 			count--;
 		}
 	}
-	if(count > 1){ return 1;}
+	if(count > 1 && survive_human>0){ return 1;}
 	else return 0;
 
 }
