@@ -11,7 +11,7 @@ typedef struct Player {
 }Player;
 
 int input_num();
-void Player_setting(Player *P, int n);
+void Player_setting(Player *P, int n,int m);
 void print_option(Player *P);
 int isplay(Player *P);
 
@@ -38,11 +38,13 @@ void main(void){
 	char input_1[6];
 	char input_2[6];
 
-	//input num
-	int player_num = input_num();
+	//input num으로 human player, computer player의 수를 받음
+	int h10c_num = input_num();
+	int human_num=h10c_num/10;
+	int computer_num=h10c_num%10;
 
 	//setting
-	Player_setting(P, player_num);
+	Player_setting(P, human_num, computer_num);
 
 	//print
 	print_option(P);
@@ -93,29 +95,42 @@ void main(void){
 	return;
 }
 
-int input_num(){
-	int n;
+int input_num(){ // 5명 미만의 player가 가능하도록 수정
+	int n,m; // n은 human 수, m은 coputer 수 
 	fflush(stdin);
-	printf("Input Player numbers (Max:5) : ");
+	printf("Input human Player numbers (human+computer Max:5) : ");
 	scanf(" %d", &n);
 	fflush(stdin);
-	printf("Player numbers is : %d\nGame start.\n\n",n);
+	printf("Input total Player numbers (human+computer Max:5) : ");
+	scanf(" %d", &m);
+	fflush(stdin);
+	printf("Human Player numbers is : %d\n Computer Player numbers is : %d\nGame start.\n\n",n,m);
 	if(n > 5 || n <= 0){
 		printf("Invalid input human player (1 ~ 5)\n");
 		printf("\n\n");
 		return input_num();
-	}	
-	return n;
+	}
+	if(n+m > 5 || m < 0){
+		printf("Invalid input total player (1 ~ 5)\n");
+		printf("\n\n");
+		return input_num();
+	}		
+	return 10*n+m;
 }
 
-void Player_setting(Player *P, int n){
+void Player_setting(Player *P, int n,int m){
 	for(int i = 1; i < 6; i++){
 		if(n > 0){
 			P[i].isPlayer = 1;
 			n--;
 		}
 		else{
-			P[i].isPlayer = 0;
+			if(m>0){
+				P[i].isPlayer = 0;
+				m--;
+			}
+			else
+				P[i].isPlayer = -1;
 		}
 		P[i].SPRB = 0.1 * i;
 	}
