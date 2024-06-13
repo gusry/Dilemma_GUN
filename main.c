@@ -65,7 +65,7 @@ void main(void){
 			printf("Now it's Player %d's turn,", turn);
 
 			if(P[turn].isPlayer == 1){
-				printf(" You choose Shoot or Pass\nView current infomation intput [status all]\nPlayer %d, choose [shoot {n} or pass {up/down}] : ", turn);
+				printf(" You choose Shoot or Pass\nView current infomation intput [status all]\nPlayer %d, choose [shoot {n} or pass {up/down/keep}] : ", turn);
 				
 				while (!getInput(input_1, input_2, P, turn)){
 					printf("Player %d's turn\nYou choose shoot or pass\n",turn);
@@ -243,8 +243,12 @@ bool getInput(char *str1, char *str2, Player *P, int turn){
 					PRB_down(P, turn);
 					return true;
 				}
+				// keep 옵션 추가
+				else if(strcmp(str2, "keep") == 0){
+					return true;
+				}
 				else{
-					printf("Please try again. {up} or {down}\n");
+					printf("Please try again. {up} or {down} or {keep}\n");
 					return false;
 				} 
 			}
@@ -322,9 +326,13 @@ void auto_choice(Player *P, int turn){
 		}
 	}
 	else{
-		if(P[turn].SPRB >= 0.5){
+		// keep 옵션 추가
+		if(P[turn].SPRB >= 0.67){
 			printf("Pass down.\n");
 			PRB_down(P, turn);
+		}
+		else if(P[turn].SPRB >= 0.34){
+			printf("Pass keep.\n");
 		}
 		else{
 			printf("Pass up.\n");
