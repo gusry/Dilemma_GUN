@@ -139,7 +139,7 @@ void Player_setting(Player *P, int n,int m){
 			else
 				P[i].isPlayer = -1;
 		}
-		P[i].SPRB = 0.1 * i;
+		P[i].SPRB = generate_random(P[i], i); //initial probability i*0.1 -> random 
 	}
 
 }
@@ -311,8 +311,8 @@ void Tic(Player *P, int turn){
 }
 
 double generate_random(Player x, int turn){
-
-    double dorand = ((double) rand() / RAND_MAX) * 0.99 + 0.01;
+	srand(time(NULL)+turn*2654435761U);
+    double dorand = (rand()%100)/100.0 + 0.01; // better
 	printf("Player_%d's shooting probablity set %.2f.\n\n",turn ,dorand);
 	return dorand;
 }
