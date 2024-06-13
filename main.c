@@ -212,8 +212,13 @@ bool getInput(char *str1, char *str2, Player *P, int turn){
 			if(strcmp(str1, "shoot") == 0){
 				int target = atoi(str2);
 
-				if(target == turn || target <= 0 || target > 5){
+				// target이 범위 바깥인 경우와 본인을 쏘는 경우 분리
+				if(target <= 0 || target > 5){
 					printf("Please try again. Target num {1 ~ 5}\n");
+					return false;
+				}
+				if(target == turn){
+					printf("Please try again. Shooting yourself doesn't help you win\n");
 					return false;
 				}
 				if(P[target].isPlayer == -1){
