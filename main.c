@@ -37,7 +37,10 @@ void main(void){
 	int turn = 0;
 	char input_1[6];
 	char input_2[6];
-
+	
+	///////////////////////////////////////
+	////////////// Phase 2 ////////////////
+	///////////////////////////////////////
 	//input num으로 human player, computer player의 수를 받음
 	int h10c_num = input_num();
 	int human_num=h10c_num/10;
@@ -45,7 +48,9 @@ void main(void){
 
 	//setting
 	Player_setting(P, human_num, computer_num);
-
+	///////////////////////////////////////
+	////////////// Phase 2 ////////////////
+	///////////////////////////////////////
 	//print
 	print_option(P);
 
@@ -102,7 +107,11 @@ void main(void){
 	return;
 }
 
-int input_num(){ // 5명 미만의 player가 가능하도록 수정
+///////////////////////////////////////
+////////////// Phase 2 ////////////////
+///////////////////////////////////////
+int input_num(){ 
+	// 5명 미만의 player가 가능하도록 수정
 	int n,m; // n은 human 수, m은 coputer 수 
 	fflush(stdin);
 	printf("Input human Player numbers (human+computer Max:5) : ");
@@ -113,15 +122,15 @@ int input_num(){ // 5명 미만의 player가 가능하도록 수정
 		return input_num();
 	}
 	fflush(stdin);
-	printf("Input total Player numbers (human+computer Max:5) : ");
+	printf("Input computer Player numbers (human+computer Max:5) : ");
 	scanf(" %d", &m);
-	if(m > 5){
+	if(n+m > 5){
 		printf("Invalid input total player (1 ~ 5)\n");
 		printf("\n\n");
 		return input_num();
 	}
-	if (n>m){
-		printf("Total player must be more than human player\n");
+	if (m<0){
+		printf("Invalid input computer player\n");
 		printf("\n\n");
 		return input_num();
 	}		
@@ -129,6 +138,10 @@ int input_num(){ // 5명 미만의 player가 가능하도록 수정
 	printf("Human Player numbers is : %d\n Computer Player numbers is : %d\nGame start.\n\n",n,m);
 	return 10*n+m;
 }
+///////////////////////////////////////
+////////////// Phase 2 ////////////////
+///////////////////////////////////////
+
 
 void Player_setting(Player *P, int n,int m){
 	for(int i = 1; i < 6; i++){
@@ -144,7 +157,13 @@ void Player_setting(Player *P, int n,int m){
 			else
 				P[i].isPlayer = -1;
 		}
+		///////////////////////////////////////
+		////////////// Phase 2 ////////////////
+		///////////////////////////////////////
 		P[i].SPRB = generate_random(P[i], i); //initial probability i*0.1 -> random 
+		///////////////////////////////////////
+		////////////// Phase 2 ////////////////
+		///////////////////////////////////////
 	}
 
 }
@@ -161,7 +180,9 @@ void print_option(Player *P){
 	printf("---------------------------------\n\n");
 
 }
-
+///////////////////////////////////////
+////////////// Phase 2 ////////////////
+///////////////////////////////////////
 int isplay(Player *P){
 	int count = 5;
 	int survive_human=0;
@@ -177,6 +198,9 @@ int isplay(Player *P){
 	else return 0;
 
 }
+///////////////////////////////////////
+////////////// Phase 2 ////////////////
+///////////////////////////////////////
 
 
 bool coin_check(double PRB){
@@ -216,7 +240,9 @@ bool getInput(char *str1, char *str2, Player *P, int turn){
         if(sscanf(inputBuffer, "%s %s", str1, str2) == 2){
 			if(strcmp(str1, "shoot") == 0){
 				int target = atoi(str2);
-
+				///////////////////////////////////////
+				////////////// Phase 2 ////////////////
+				///////////////////////////////////////
 				// target이 범위 바깥인 경우와 본인을 쏘는 경우 분리
 				if(target <= 0 || target > 5){
 					printf("Please try again. Target num {1 ~ 5}\n");
@@ -230,7 +256,9 @@ bool getInput(char *str1, char *str2, Player *P, int turn){
 					printf("Please try again. Target already dead. \n");
 					return false;
 				}
-
+				///////////////////////////////////////
+				////////////// Phase 2 ////////////////
+				///////////////////////////////////////
 				else{
 					if(coin_check(P[turn].SPRB)){
 						Bang(P, target, turn);
@@ -253,6 +281,9 @@ bool getInput(char *str1, char *str2, Player *P, int turn){
 					PRB_down(P, turn);
 					return true;
 				}
+				///////////////////////////////////////
+				////////////// Phase 2 ////////////////
+				///////////////////////////////////////
 				// keep 옵션 추가
 				else if(strcmp(str2, "keep") == 0){
 					return true;
@@ -261,6 +292,9 @@ bool getInput(char *str1, char *str2, Player *P, int turn){
 					printf("Please try again. {up} or {down} or {keep}\n");
 					return false;
 				} 
+				///////////////////////////////////////
+				////////////// Phase 2 ////////////////
+				///////////////////////////////////////
 			}
 			else if(strcmp(str1, "status") == 0){
 				print_option(P);
@@ -304,20 +338,38 @@ void Bang(Player *P, int target, int turn){
 	printf("!!!BANG!!!\n!!!BANG!!!\n!!!BANG!!!\n");
 	printf("Player_%d is dead. \n",target);
 	P[target].isPlayer = -1;
+	///////////////////////////////////////
+	////////////// Phase 2 ////////////////
+	///////////////////////////////////////
 	// 확률이 바뀌는 부분 삭제
+	///////////////////////////////////////
+	////////////// Phase 2 ////////////////
+	///////////////////////////////////////
 	return;
 }
 
 void Tic(Player *P, int turn){
 	printLoadingAnimation(12, 500);
 	printf("...Tic...\n");
+	///////////////////////////////////////
+	////////////// Phase 2 ////////////////
+	///////////////////////////////////////
 	// 확률이 바뀌는 부분 삭제
+	///////////////////////////////////////
+	////////////// Phase 2 ////////////////
+	///////////////////////////////////////
 	return;
 }
 
 double generate_random(Player x, int turn){
+	///////////////////////////////////////
+	////////////// Phase 2 ////////////////
+	///////////////////////////////////////
 	srand(time(NULL)+turn*2654435761U);
     double dorand = (rand()%100)/100.0 + 0.01; // better
+	///////////////////////////////////////
+	////////////// Phase 2 ////////////////
+	///////////////////////////////////////
 	printf("Player_%d's shooting probablity set %.2f.\n\n",turn ,dorand);
 	return dorand;
 }
@@ -336,7 +388,10 @@ void auto_choice(Player *P, int turn){
 		}
 	}
 	else{
-		// keep 옵션 추가
+		///////////////////////////////////////
+		////////////// Phase 2 ////////////////
+		///////////////////////////////////////
+				// keep 옵션 추가
 		if(P[turn].SPRB >= 0.67){
 			printf("Pass down.\n");
 			PRB_down(P, turn);
@@ -348,7 +403,9 @@ void auto_choice(Player *P, int turn){
 			printf("Pass up.\n");
 			PRB_up(P, turn);
 		}
-		
+		///////////////////////////////////////
+		////////////// Phase 2 ////////////////
+		///////////////////////////////////////
 	}
 }
 
