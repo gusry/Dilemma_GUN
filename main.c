@@ -5,10 +5,21 @@
 #include <unistd.h>
 #include <time.h>
 
+// ==================================================================
+// ======================== OSS PHASE 2 =============================
+// ==================================================================
 typedef struct Player {
 	int isPlayer; 	// -1: death, 0:computer, 1:player
 	double SPRB;  // shooting probablity 0.01 ~ 1.0
+	int chanceCard; // 1: Set probability 1.0, 2: Defence attack, 3: Skip next player's turn
+	char haveChance; // if Player have a chance ard => 'O', if not => 'X'
+	bool chanceUsed; // if player use chance => true, if not => false
+	bool defence; // if player get defence card, set this true
+	bool skip; // if player get skip card, set this true
 }Player;
+// ==================================================================
+// ======================== OSS PHASE 2 =============================
+// ==================================================================
 
 int input_num();
 void Player_setting(Player *P, int n);
@@ -21,11 +32,11 @@ void printLoadingAnimation(int iterations, int delay);
 
 //player
 bool getInput(char *str1, char *str2, Player *P, int turn);
-
 void PRB_down(Player *P, int turn);
 void PRB_up(Player *P, int turn);
 void Bang(Player *P, int target, int turn);
 void Tic(Player *P, int turn);
+void get_chanceCard(Player *P, int turn);
 
 //computer
 void auto_choice(Player *P, int turn);
@@ -35,8 +46,8 @@ void main(void){
 	//variable
 	Player P[6]; //player arr 1/2/3/4/5
 	int turn = 0;
-	char input_1[6];
-	char input_2[6];
+	char input_1[10];
+	char input_2[10];
 
 	//input num
 	int player_num = input_num();
@@ -48,6 +59,8 @@ void main(void){
 	print_option(P);
 
 	//roof
+
+	getchar();
 	while(isplay(P) != 0)
 	{	
 		turn++;
@@ -58,26 +71,37 @@ void main(void){
 			turn = 1;
 		}
 
-		if(P[turn].isPlayer != -1){
+// ==================================================================
+// ======================== OSS PHASE 2 =============================
+// ==================================================================
+		if(P[turn].skip == true){
+        	printf("Skip Player %d's turn by chance card...\n", turn);
+			printf("\n");
+         	P[turn].skip = false;
+     	}
+
+		else if(P[turn].isPlayer != -1){
 			sleep(4);
 			printf("Now it's Player %d's turn,", turn);
 
 			if(P[turn].isPlayer == 1){
-				printf(" You choose Shoot or Pass\nView current infomation intput [status all]\nPlayer %d, choose [shoot {n} or pass {up/down}] : ", turn);
+				printf(" You choose Shoot or Pass or Chance.\nView current infomation intput [status all]\nPlayer %d, choose [shoot {n} or pass {up/down} or get chance] : ", turn);
 				
 				while (!getInput(input_1, input_2, P, turn)){
-					printf("Player %d's turn\nYou choose shoot or pass\n",turn);
+					printf("Player %d's turn\nYou choose shoot or pass or chance\n",turn);
 				}
 				printf("\n\n");
 
 			}
-
 			else if(P[turn].isPlayer == 0){
 				printf(" computer player auto choice\n");
 				auto_choice(P, turn);
 			}
 			
 		}
+// ==================================================================
+// ======================== OSS PHASE 2 =============================
+// ==================================================================
 		
 	}
 
@@ -108,6 +132,9 @@ int input_num(){
 	return n;
 }
 
+// ==================================================================
+// ======================== OSS PHASE 2 =============================
+// ==================================================================
 void Player_setting(Player *P, int n){
 	for(int i = 1; i < 6; i++){
 		if(n > 0){
@@ -117,23 +144,33 @@ void Player_setting(Player *P, int n){
 		else{
 			P[i].isPlayer = 0;
 		}
+
+		P[i].chanceCard = 0;
+		P[i].haveChance = 'X';
+		P[i].defence = false;
+		P[i].skip = false;
+		P[i].chanceUsed = false;
 		P[i].SPRB = 0.1 * i;
 	}
 
 }
 
 void print_option(Player *P){
-	printf("\nCurrent game status--------------\n");
+	printf("\nCurrent game status-----------------------------------------\n");
 	
 	for(int i = 1; i < 6; i++){
 		printf("Player_%d", i);
 		if(P[i].isPlayer == 0){printf(" is computer, SPRB : %.2f\n", P[i].SPRB);}
-		else if(P[i].isPlayer == 1){printf(" is human, SPRB : %.2f\n", P[i].SPRB);}
+		else if(P[i].isPlayer == 1){printf(" is human, SPRB : %.2f, ChanceCard: %d, HaveChance: %c\n", P[i].SPRB, P[i].chanceCard, P[i].haveChance);}
 		else if(P[i].isPlayer == -1){printf(" died\n");}
 	}
-	printf("---------------------------------\n\n");
+	printf("------------------------------------------------------------\n\n");
 
 }
+// ==================================================================
+// ======================== OSS PHASE 2 =============================
+// ==================================================================
+
 
 int isplay(Player *P){
 	int count = 5;
@@ -195,8 +232,19 @@ bool getInput(char *str1, char *str2, Player *P, int turn){
 					return false;
 				}
 
+// ==================================================================
+// ======================== OSS PHASE 2 =============================
+// ==================================================================
+				else if(P[target].defence == true){
+					printf("Player %d defence attack!!\n", target);
+					P[turn].SPRB = generate_random(P[turn], turn);
+					P[target].defence = false;
+					P[target].chanceUsed == true;
+					P[target].haveChance = 'X';
+				}
 				else{
 					if(coin_check(P[turn].SPRB)){
+						if(P[turn].haveChance == 'O' && P[turn].SPRB == 1.0) {P[turn].haveChance = 'X';}
 						Bang(P, target, turn);
 						return true;
 					}
@@ -205,9 +253,12 @@ bool getInput(char *str1, char *str2, Player *P, int turn){
 						return true;
 					}
 				}
-
 				return true;
 			}
+// ==================================================================
+// ======================== OSS PHASE 2 =============================
+// ==================================================================
+
 			else if(strcmp(str1, "pass") == 0){
 				if(strcmp(str2, "up") == 0){
 					PRB_up(P, turn);
@@ -222,7 +273,26 @@ bool getInput(char *str1, char *str2, Player *P, int turn){
 					return false;
 				} 
 			}
-			else if(strcmp(str1, "status") == 0){
+
+// ==================================================================
+// ======================== OSS PHASE 2 =============================
+// ==================================================================
+			else if(strcmp(str1, "get") == 0 && strcmp(str2, "chance") == 0){
+				if(P[turn].chanceUsed == false){
+					get_chanceCard(P, turn);
+					P[turn].chanceUsed = true;
+					return true;
+				}
+				else{
+					printf("Player %d already use chance card...\n", turn);
+					return false;
+				}			
+			}
+// ==================================================================
+// ======================== OSS PHASE 2 =============================
+// ==================================================================
+
+			else if(strcmp(str1, "status") == 0, strcmp(str2, "all") == 0){
 				print_option(P);
 				return false;
 			}
@@ -339,9 +409,30 @@ int auto_targeting(Player *P, int turn){
 	}
 }
 
+// ==================================================================
+// ======================== OSS PHASE 2 =============================
+// ==================================================================
+void get_chanceCard(Player *P, int turn){
+	
+	printf("Player %d get a chance card!!", turn);
+	srand(time(NULL));
 
-
-
-
-
-
+	int randcard = (rand() % 3) + 1;
+	int skipTarget = (turn % 5) + 1;
+	
+	P[turn].chanceCard = randcard;
+	P[turn].haveChance = 'O';
+	
+	if(P[turn].chanceCard == 1) P[turn].SPRB = 1.0;
+	else if(P[turn].chanceCard == 2) P[turn].defence = true;
+	else {
+		while(P[skipTarget].isPlayer == -1){
+			skipTarget = (skipTarget % 5) + 1;
+		}
+		P[skipTarget].skip = true;
+		P[turn].haveChance = 'X';
+	}
+}
+// ==================================================================
+// ======================== OSS PHASE 2 =============================
+// ==================================================================
