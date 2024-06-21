@@ -167,6 +167,9 @@ void Player_setting(Player *P, int n,int m){
 	}
 
 }
+	///////////////////////////////////////
+	////////////// Phase 2 ////////////////
+	///////////////////////////////////////
 
 void print_option(Player *P){
 	printf("\nCurrent game status--------------\n");
